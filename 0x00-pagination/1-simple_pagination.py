@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+"""
+Module for paginating a page
+"""
 import csv
-import math
 from typing import List, Tuple
 
 
