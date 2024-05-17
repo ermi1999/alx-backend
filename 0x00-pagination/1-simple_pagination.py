@@ -1,6 +1,13 @@
 import csv
 import math
-from typing import List
+from typing import List, Tuple
+
+
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """
+    function for calculating a pagination.
+    """
+    return ((page_size * page) - page_size, page_size * page)
 
 
 class Server:
@@ -27,4 +34,12 @@ class Server:
         paginates the page and
         returns the appropriate page of the dataset.
         """
+        assert type(page) is int and page > 0
+        assert type(page_size) is int and page_size > 0
+        
+        dataset = self.dataset()
+        start, finish = index_range(page, page_size)
 
+        if len(dataset) - 1 < finish:
+            return []
+        return [dataset[i] for i in range(start, finish)]
