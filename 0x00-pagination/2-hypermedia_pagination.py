@@ -46,7 +46,7 @@ class Server:
         if len(dataset) - 1 < finish:
             return []
         return [dataset[i] for i in range(start, finish)]
-    
+
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """returns a paginated page along with some additional info in dict."""
         new_page = self.get_page(page, page_size)
