@@ -26,7 +26,7 @@ class LRUCache(BaseCaching):
         if (len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS
                 and not self.cache_data.get(key)):
             key_to_delete = next(iter(self.__lru_table))
-            print(f"DISCARD: {key_to_delete[0]}")
+            print(f"DISCARD: {key_to_delete}")
             del self.cache_data[key_to_delete]
             del self.__lru_table[key_to_delete]
         if self.cache_data.get(key):
