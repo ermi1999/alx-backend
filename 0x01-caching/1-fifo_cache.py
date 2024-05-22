@@ -3,6 +3,7 @@
 basic FIFO caching system.
 """
 BaseCaching = __import__('base_caching').BaseCaching
+from collections import OrderedDict
 
 
 class FIFOCache(BaseCaching):
@@ -14,6 +15,7 @@ class FIFOCache(BaseCaching):
         initializer
         """
         super().__init__()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
         """
