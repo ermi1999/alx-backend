@@ -35,4 +35,4 @@ class FIFOCache(BaseCaching):
         """
         gets a value associated with the key.
         """
-        return self.cached_data.get(key)
+        return self.cached_data.get(key, None)
