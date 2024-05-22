@@ -16,7 +16,8 @@ class FIFOCache(BaseCaching):
         if not key or not item:
             return
 
-        if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
+        if (len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS
+                and not self.cache_data.get(key)):
             key_to_delete = next(iter(self.cache_data))
             print(f"DISCARD: {key_to_delete}")
             del self.cache_data[key_to_delete]
