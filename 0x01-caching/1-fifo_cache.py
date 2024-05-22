@@ -9,6 +9,12 @@ class FIFOCache(BaseCaching):
     """
     class for creating a FIFO caching system.
     """
+    def __init__(self):
+        """
+        initializer
+        """
+        super().__init__()
+
     def put(self, key, item):
         """
         inserts an item to cache_data following the rule of FIFO.
