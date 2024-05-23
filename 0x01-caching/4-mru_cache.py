@@ -14,7 +14,7 @@ class MRUCache(BaseCaching):
         initializer
         """
         super().__init__()
-        self.__lru_table = {}
+        self.__mru_table = {}
 
     def put(self, key, item):
         """
@@ -25,17 +25,17 @@ class MRUCache(BaseCaching):
 
         if (len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS
                 and not self.cache_data.get(key)):
-            key_to_delete, _ = self.__lru_table.popitem()
+            key_to_delete, _ = self.__mru_table.popitem()
             print(f"DISCARD: {key_to_delete}")
             del self.cache_data[key_to_delete]
         if self.cache_data.get(key):
             del self.cache_data[key]
-        if key in self.__lru_table.keys():
-            del self.__lru_table[key]
-        if len(self.__lru_table) > 1:
-            self.__lru_table[key] = len(self.__lru_table) - 1
+        if key in self.__mru_table.keys():
+            del self.__mru_table[key]
+        if len(self.__mru_table) > 1:
+            self.__mru_table[key] = len(self.__mru_table) - 1
         else:
-            self.__lru_table[key] = 0
+            self.__mru_table[key] = 0
         self.cache_data[key] = item
 
     def get(self, key):
@@ -44,10 +44,10 @@ class MRUCache(BaseCaching):
         """
         if key not in self.cache_data.keys():
             return None
-        if key in self.__lru_table.keys():
-            del self.__lru_table[key]
-        if len(self.__lru_table) > 1:
-            self.__lru_table[key] = len(self.__lru_table) - 1
+        if key in self.__mru_table.keys():
+            del self.__mru_table[key]
+        if len(self.__mru_table) > 1:
+            self.__mru_table[key] = len(self.__mru_table) - 1
         else:
-            self.__lru_table[key] = 0
+            self.__mru_table[key] = 0
         return self.cache_data.get(key, None)
