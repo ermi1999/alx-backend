@@ -25,7 +25,7 @@ class LFUCache(BaseCaching):
 
         if (len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS
                 and not self.cache_data.get(key)):
-            
+
             key_to_delete = None
             for k, value in self.__lfu_table.items():
                 if key_to_delete is None:
