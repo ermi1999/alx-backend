@@ -2,6 +2,8 @@
 """
 A Basic flask application
 """
+import pytz
+import datetime
 from typing import (
     Dict, Union
 )
@@ -10,7 +12,7 @@ from flask import Flask
 from flask import g, request
 from flask import render_template
 from flask_babel import Babel
-import pytz
+from flask_babel import format_datetime
 
 
 class Config(object):
@@ -22,10 +24,27 @@ class Config(object):
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
+# Instantiate the application object
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Wrap the application with Babel
 babel = Babel(app)
+
+
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
+
+
+def get_user(id) -> Union[Dict[str, Union[str, None]], None]:
+    """
+    Validate user login details
+    """
+    return users.get(int(id), None)
 
 
 @babel.localeselector
@@ -53,32 +72,19 @@ def get_timezone() -> str:
     if not tz and g.user:
         tz = g.user['timezone']
     try:
-        return pytz.timezone(tz).zone
+        tz = pytz.timezone(tz).zone
     except pytz.exceptions.UnknownTimeZoneError:
-        return app.config['BABEL_DEFAULT_TIMEZONE']
-
-
-users = {
-    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
-    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
-    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
-    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
-}
-
-
-def get_user(id) -> Union[Dict[str, Union[str, None]], None]:
-    """
-    Validate user login details
-    """
-    return users.get(int(id), 0)
+        tz = app.config['BABEL_DEFAULT_TIMEZONE']
+    return tz
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """
     Adds valid user to the global session object `g`
     """
     setattr(g, 'user', get_user(request.args.get('login_as', 0)))
+    setattr(g, 'time', format_datetime(datetime.datetime.now()))
 
 
 @app.route('/', strict_slashes=False)
@@ -86,7 +92,7 @@ def index() -> str:
     """
     Renders a basic html template
     """
-    return render_template('7-index.html')
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
