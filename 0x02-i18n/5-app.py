@@ -27,10 +27,8 @@ babel = Babel(app)
 
 
 def get_user() -> Union[Dict[str, Union[str, None]], None]:
-    _id = request.args.get('login_as', '').strip()
-    if not _id or not users.get(int(_id)):
-        return None
-    return users.get(int(_id))
+     """gets a user"""
+     return users.get(int(id), 0)
 
 
 @app.before_request
