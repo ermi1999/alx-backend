@@ -2,7 +2,7 @@
 """Flask app"""
 from flask_babel import Babel
 from flask import Flask, render_template, request, g
-from typing import Dict
+from typing import Dict, Union
 
 
 class Config:
@@ -26,7 +26,7 @@ app.config.from_object(Config)
 babel = Babel(app)
 
 
-def get_user() -> Dict:
+def get_user() -> Union[Dict[str, Union[str, None]], None]:
     _id = request.args.get('login_as', '').strip()
     if not _id or not users.get(int(_id)):
         return None
