@@ -32,7 +32,7 @@ def get_user() -> Union[Dict[str, Union[str, None]], None]:
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """
     Adds valid user to the global session object `g`
     """
