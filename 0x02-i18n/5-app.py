@@ -27,8 +27,8 @@ babel = Babel(app)
 
 
 def get_user() -> Union[Dict[str, Union[str, None]], None]:
-     """gets a user"""
-     return users.get(int(id), 0)
+    """gets a user"""
+    return users.get(int(id), 0)
 
 
 @app.before_request
