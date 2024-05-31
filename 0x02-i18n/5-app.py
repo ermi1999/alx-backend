@@ -49,7 +49,6 @@ def before_request() -> None:
 
 
 
-
 @app.route('/', strict_slashes=False)
 def index() -> str:
     """renders a template"""
