@@ -6,9 +6,9 @@ import { createClient } from "redis";
 const app = express();
 const client = createClient({ name: "reserve_seat" });
 const queue = createQueue();
-const INITIAL_SEATS_COUNT = 50;
+const initial_seats = 50;
 let reservationEnabled = false;
-const PORT = 1245;
+const port = 1245;
 
 /**
  * Modifies the number of available seats.
@@ -83,12 +83,10 @@ const resetAvailableSeats = async (initialSeatsCount) => {
   );
 };
 
-app.listen(PORT, () => {
-  resetAvailableSeats(
-    process.env.INITIAL_SEATS_COUNT || INITIAL_SEATS_COUNT
-  ).then(() => {
+app.listen(port, () => {
+  resetAvailableSeats(process.env.initial_seats || initial_seats).then(() => {
     reservationEnabled = true;
-    console.log(`API available on localhost port ${PORT}`);
+    console.log(`API available on localhost port ${port}`);
   });
 });
 
